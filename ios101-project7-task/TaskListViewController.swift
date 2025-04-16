@@ -5,6 +5,47 @@
 import UIKit
 
 class TaskListViewController: UIViewController {
+    
+    var taskToEdit: Task?
+    var onComposeTask: ((Task) -> Void)?
+    
+    // Connects the Title input field from storyboard
+    @IBOutlet weak var titleTextField: UITextField!
+
+    // Connects the Note input field from storyboard
+    @IBOutlet weak var noteTextField: UITextField!
+
+    // Connects the Due Date picker from storyboard
+    @IBOutlet weak var dueDatePicker: UIDatePicker!
+
+    
+    @IBAction func didTapDoneButton(_ sender: UIBarButtonItem) {
+        // Validate that the task has a title
+        guard let title = titleTextField.text, !title.isEmpty else {
+            return
+        }
+
+        let note = noteTextField.text
+        let dueDate = dueDatePicker.date
+
+        // Create new task or update existing one
+        var task: Task
+        if var existingTask = taskToEdit {
+            existingTask.title = title
+            existingTask.note = note
+            existingTask.dueDate = dueDate
+            task = existingTask
+        } else {
+            task = Task(title: title, note: note, dueDate: dueDate)
+        }
+
+        // Pass task back to TaskListViewController
+        onComposeTask?(task)
+
+        // Close the compose screen
+        dismiss(animated: true)
+    }
+
 
     @IBOutlet weak var tableView: UITableView!
     //test
