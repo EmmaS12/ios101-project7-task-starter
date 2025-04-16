@@ -92,7 +92,7 @@ class TaskListViewController: UIViewController {
     //    - reloadSections(IndexSet(integer: 0), with: .automatic) is similar to `reloadData()` with the added ability to update the table view changes with animation.
     private func refreshTasks() {
         // 1.
-        var tasks = Task.getTasks()
+        var tasks = Task.loadTasks()
         // 2.
         tasks.sort { lhs, rhs in
             if lhs.isComplete && rhs.isComplete {
